@@ -19,7 +19,7 @@
 .env.production.local
 .env
 
-src/.*
+src/.*.swp
 
 npm-debug.log*
 yarn-debug.log*
