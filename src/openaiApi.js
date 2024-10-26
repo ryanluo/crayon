@@ -1,8 +1,9 @@
 // openaiApi.js
 import axios from 'axios';
+import { defineAuth, secret } from '@aws-amplify/backend';
 
 const OPENAI_API_URL = 'https://api.openai.com/v1/chat/completions';
-const API_KEY = process.env.REACT_APP_OPENAI_API_KEY; // Make sure to set this in your .env file
+const API_KEY = process.env.REACT_APP_OPENAI_API_KEY ? process.env.REACT_APP_OPENAI_API_KEY : secret('REACT_APP_OPENAI_API_KEY ');
 
 /**
  * Construct a list of guardrails from a set of objectives.
