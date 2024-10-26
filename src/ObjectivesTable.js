@@ -111,6 +111,7 @@ const ObjectivesTable = ({ jsonData }) => {
 
       {/* New Objective Form */}
       <div style={{ marginBottom: '20px' }}>
+<br/>
         <input
           type="text"
           name="rubric_name"
@@ -146,19 +147,19 @@ const ObjectivesTable = ({ jsonData }) => {
 
       <button 
         onClick={generateAgentPrompt}
-        disabled={!hasCheckedItems} // Disable button if no items are checked
+        disabled={loading || !hasCheckedItems} // Disable button if no items are checked
         style={{
           marginTop: '20px',
           padding: '10px 20px',
           fontSize: '16px',
-          backgroundColor: hasCheckedItems ? '#007BFF': '#808080',
+          backgroundColor: loading || !hasCheckedItems ? '#808080' : '#007BFF',
           color: 'white',
           border: 'none',
           borderRadius: '5px',
-          cursor: hasCheckedItems ? 'pointer' : 'not-allowed'
+          cursor: loading || !hasCheckedItems ? 'not-allowed' : 'pointer'
         }}
       >
-        Generate Agent Prompt
+        {loading ? 'Loading...' : 'Generate Agent Prompt'}
       </button>
       {generatedPrompt && <GeneratedPrompt prompt={generatedPrompt} />}
     </div>
