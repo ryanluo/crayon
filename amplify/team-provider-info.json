@@ -1,0 +1,15 @@
+{
+  "dev": {
+    "awscloudformation": {
+      "AuthRoleName": "amplify-crayon-dev-d4ffc-authRole",
+      "UnauthRoleArn": "arn:aws:iam::567241294884:role/amplify-crayon-dev-d4ffc-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::567241294884:role/amplify-crayon-dev-d4ffc-authRole",
+      "Region": "us-east-1",
+      "DeploymentBucketName": "amplify-crayon-dev-d4ffc-deployment",
+      "UnauthRoleName": "amplify-crayon-dev-d4ffc-unauthRole",
+      "StackName": "amplify-crayon-dev-d4ffc",
+      "StackId": "arn:aws:cloudformation:us-east-1:567241294884:stack/amplify-crayon-dev-d4ffc/16badfb0-93c9-11ef-bd6a-0ea764f12005",
+      "AmplifyAppId": "d3dku21t9t24u4"
+    }
+  }
+}
