@@ -27,6 +27,8 @@ const createObjectivesLog = async (
   })
 };
 
+var userObjectives = [];
+
 const ObjectivesTable = ({ jsonData, purpose }) => {
   const [data, setData] = useState([]);
   const [checkedItems, setCheckedItems] = useState({});
@@ -34,7 +36,6 @@ const ObjectivesTable = ({ jsonData, purpose }) => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const [newObjective, setNewObjective] = useState({ rubric_name: '', rubric_explanation: '' });
-  const userObjectives = []
 
   // Parse JSON data on initial load
   useEffect(() => {
@@ -73,7 +74,7 @@ const ObjectivesTable = ({ jsonData, purpose }) => {
     }));
     
     setData(updatedData);
-    userObjectives.push(newObjective.rubric_name + ':' + newObjective.rubric_explanation)
+    userObjectives.push(newObjective.rubric_name + ': ' + newObjective.rubric_explanation)
     setNewObjective({ rubric_name: '', rubric_explanation: '' }); // Clear input fields
   };
 
@@ -101,7 +102,6 @@ const ObjectivesTable = ({ jsonData, purpose }) => {
       setError(`An error occurred while calling OpenAI API: ${err}.`);
     } finally {
       setLoading(false);
-      // TODO: actually make this log the right objectives.
       await createObjectivesLog(userObjectives, selectedObjectives, guidelines, result);
     }
   };
