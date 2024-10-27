@@ -2,7 +2,6 @@
 import React, { useState } from 'react';
 import OpenAIPrompt from './OpenAIPrompt';
 
-
 // Helper function to simulate grammar and spell checks
 const checkText = (text) => {
   const errors = [];

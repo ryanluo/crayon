@@ -3,6 +3,22 @@ import React, { useState } from 'react';
 import { getObjectivesFromLLM } from './openaiApi';
 import ObjectivesTable from './ObjectivesTable';
 
+import type { Schema } from '../amplify/data/resource'
+import { generateClient } from 'aws-amplify/data'
+
+const client = generateClient();
+
+const createPromptLog = async (prompt, response) => {
+  await client.models.Prompt.create({
+    useragent: 'a',
+    ip_address: 'a',
+    session_id: 'id',
+    timestamp: Date.now(),
+    prompt: prompt,
+    response: response
+  })
+};
+
 
 const OpenAIPrompt = ({ prompt }) => {
   const [response, setResponse] = useState('');
@@ -24,6 +40,7 @@ const OpenAIPrompt = ({ prompt }) => {
       setError(`An error occurred while calling OpenAI API: ${err}.`);
     } finally {
       setLoading(false);
+      createPromptLog(prompt, response);
     }
   };
 
