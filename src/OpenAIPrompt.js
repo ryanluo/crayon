@@ -68,7 +68,7 @@ const OpenAIPrompt = ({ prompt }) => {
       </button>
 
       {error && <p style={{ color: 'red' }}>{error}</p>}
-      {response && (<ObjectivesTable jsonData={response} />)}
+      {response && (<ObjectivesTable jsonData={response} purpose={prompt} />)}
     </div>
   );
 };

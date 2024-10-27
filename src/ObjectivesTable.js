@@ -17,7 +17,7 @@ const createObjectivesLog = async (
     generated_prompt_response) => {
   await client.models.Objectives.create({
     useragent: navigator.userAgent,
-    ip_address: 'a',
+    ip_address: '',
     session_id: localStorage.getItem('sessionId'),
     timestamp: Date.now(),
     user_objectives: user_objectives,
@@ -27,7 +27,7 @@ const createObjectivesLog = async (
   })
 };
 
-const ObjectivesTable = ({ jsonData }) => {
+const ObjectivesTable = ({ jsonData, purpose }) => {
   const [data, setData] = useState([]);
   const [checkedItems, setCheckedItems] = useState({});
   const [generatedPrompt, setGeneratedPrompt] = useState('');
@@ -94,7 +94,8 @@ const ObjectivesTable = ({ jsonData }) => {
     try {
       // Call the function from openaiApi.js
       guidelines = await getGuardrailsFromObjectives(selectedObjectivesInput)
-      result = JSON.parse(await getAgentPromptFromObjectives(selectedObjectivesInput, guidelines)).response;
+      result = JSON.parse(
+          await getAgentPromptFromObjectives(purpose, selectedObjectivesInput, guidelines)).response;
       setGeneratedPrompt(result);
     } catch (err) {
       setError(`An error occurred while calling OpenAI API: ${err}.`);

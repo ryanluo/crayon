@@ -23,7 +23,7 @@ An example of a positive guardrail is: check factuality of each statement.
 Please structure as bullet points:
 Your response must {guardrail}
 `;
-  const user_prompt =  `Construct a set of at most 10 guardrails given the following objectives:
+  const user_prompt =  `Construct a set of at most 7 guardrails given the following objectives:
 
 ${objectives}
 
@@ -36,11 +36,12 @@ Your response here:
 
 /**
  * Construct a high-quality agent prompt from a set of objectives.
+ * @param {string} - The purpose provided by the user
  * @param {string} - The list of objectives to compile
  * @param {string} - The list of guidelines to compile
  * @returns {Promise<string>} - The response text from OpenAI.
  */
-export const getAgentPromptFromObjectives = async (objectives, guidelines) => {
+export const getAgentPromptFromObjectives = async (purpose, objectives, guidelines) => {
   const system_prompt = `
 You are a consultant that is an expert at writing clear communication.
 
@@ -59,6 +60,8 @@ Please format with json:
 `;
 
   const user_prompt =  `Create an agent prompt that achieves the following objectives and guidelines:
+
+${purpose}
 
 ${objectives}
 
