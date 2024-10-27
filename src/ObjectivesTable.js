@@ -16,7 +16,7 @@ const createObjectivesLog = async (
     guardrail_response,
     generated_prompt_response) => {
   await client.models.Objectives.create({
-    useragent: 'a',
+    useragent: navigator.userAgent,
     ip_address: 'a',
     session_id: localStorage.getItem('sessionId'),
     timestamp: Date.now(),

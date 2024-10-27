@@ -12,8 +12,8 @@ const client = generateClient({
 
 const createPromptLog = async (prompt, response) => {
   await client.models.Prompt.create({
-    useragent: 'a',
-    ip_address: 'a',
+    useragent: navigator.userAgent,
+    ip_address: '',
     session_id: localStorage.getItem('sessionId'),
     timestamp: Date.now(),
     prompt: prompt,
