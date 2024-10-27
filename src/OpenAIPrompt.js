@@ -6,7 +6,9 @@ import ObjectivesTable from './ObjectivesTable';
 import type { Schema } from '../amplify/data/resource'
 import { generateClient } from 'aws-amplify/data'
 
-const client = generateClient();
+const client = generateClient({
+  authMode: 'apiKey',
+});
 
 const createPromptLog = async (prompt, response) => {
   await client.models.Prompt.create({

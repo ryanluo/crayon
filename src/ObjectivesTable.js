@@ -6,7 +6,9 @@ import GeneratedPrompt from './GeneratedPrompt';
 import type { Schema } from '../amplify/data/resource'
 import { generateClient } from 'aws-amplify/data'
 
-const client = generateClient()
+const client = generateClient({
+  authMode: 'apiKey',
+})
 
 const createObjectivesLog = async (
     user_objectives, 
