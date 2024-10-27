@@ -33,15 +33,16 @@ const OpenAIPrompt = ({ prompt }) => {
     setError('');
     setResponse('');
 
+    var result = ''
     try {
       // Call the function from openaiApi.js
-      const result = await getObjectivesFromLLM(prompt);
+      result = await getObjectivesFromLLM(prompt);
       setResponse(result);
     } catch (err) {
       setError(`An error occurred while calling OpenAI API: ${err}.`);
     } finally {
       setLoading(false);
-      await createPromptLog(prompt, response);
+      await createPromptLog(prompt, JSON.stringify(JSON.parse(result).response));
     }
   };
 
