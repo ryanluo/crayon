@@ -17,9 +17,7 @@ const schema = a.schema({
       timestamp: a.timestamp(),
       user_objectives: a.string().array(),
       selected_objectives: a.string().array(),
-      guardrail_prompt: a.string(),
       guardrail_response: a.string(),
-      generated_prompt: a.string(),
       generated_prompt_response: a.string()
     })
     .authorization(allow => [allow.publicApiKey()])

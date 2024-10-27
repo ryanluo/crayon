@@ -18,13 +18,11 @@ const createObjectivesLog = async (
   await client.models.Objectives.create({
     useragent: 'a',
     ip_address: 'a',
-    session_id: 'id',
+    session_id: localStorage.getItem('sessionId'),
     timestamp: Date.now(),
     user_objectives: user_objectives,
     selected_objectives: selected_objectives,
-    guardrail_prompt: '',
     guardrail_response: guardrail_response,
-    generated_prompt: '',
     generated_prompt_response: generated_prompt_response,
   })
 };
@@ -88,23 +86,22 @@ const ObjectivesTable = ({ jsonData }) => {
 
     const selectedObjectives = data
       .filter((_, index) => checkedItems[index])
-      .map((item) => `- ${item.rubric_name}: ${item.rubric_explanation}`)
-      .join('\n');
-
-
+      .map((item) => `- ${item.rubric_name}: ${item.rubric_explanation}`);
+    const selectedObjectivesInput = selectedObjectives.join('\n');
+      
     var guidelines = ''
     var result = ''
     try {
       // Call the function from openaiApi.js
-      guidelines = await getGuardrailsFromObjectives(selectedObjectives)
-      result = JSON.parse(await getAgentPromptFromObjectives(selectedObjectives, guidelines)).response;
+      guidelines = await getGuardrailsFromObjectives(selectedObjectivesInput)
+      result = JSON.parse(await getAgentPromptFromObjectives(selectedObjectivesInput, guidelines)).response;
       setGeneratedPrompt(result);
     } catch (err) {
       setError(`An error occurred while calling OpenAI API: ${err}.`);
     } finally {
       setLoading(false);
       // TODO: actually make this log the right objectives.
-      await createObjectivesLog(userObjectives.join('\n'), selectedObjectives, guidelines, result);
+      await createObjectivesLog(userObjectives, selectedObjectives, guidelines, result);
     }
   };
 
