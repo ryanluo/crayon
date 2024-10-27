@@ -19,7 +19,6 @@ const createPromptLog = async (prompt, response) => {
   })
 };
 
-
 const OpenAIPrompt = ({ prompt }) => {
   const [response, setResponse] = useState('');
   const [loading, setLoading] = useState(false);
@@ -40,7 +39,7 @@ const OpenAIPrompt = ({ prompt }) => {
       setError(`An error occurred while calling OpenAI API: ${err}.`);
     } finally {
       setLoading(false);
-      createPromptLog(prompt, response);
+      await createPromptLog(prompt, response);
     }
   };
 

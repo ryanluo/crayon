@@ -3,6 +3,30 @@ import React, { useState, useEffect } from 'react';
 import { getGuardrailsFromObjectives, getAgentPromptFromObjectives } from './openaiApi.js';
 import GeneratedPrompt from './GeneratedPrompt';
 
+import type { Schema } from '../amplify/data/resource'
+import { generateClient } from 'aws-amplify/data'
+
+const client = generateClient()
+
+const createObjectivesLog = async (
+    user_objectives, 
+    selected_objectives,  
+    guardrail_response,
+    generated_prompt_response) => {
+  await client.models.Objectives.create({
+    useragent: 'a',
+    ip_address: 'a',
+    session_id: 'id',
+    timestamp: Date.now(),
+    user_objectives: user_objectives,
+    selected_objectives: selected_objectives,
+    guardrail_prompt: '',
+    guardrail_response: guardrail_response,
+    generated_prompt: '',
+    generated_prompt_response: generated_prompt_response,
+  })
+};
+
 const ObjectivesTable = ({ jsonData }) => {
   const [data, setData] = useState([]);
   const [checkedItems, setCheckedItems] = useState({});
@@ -10,6 +34,7 @@ const ObjectivesTable = ({ jsonData }) => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const [newObjective, setNewObjective] = useState({ rubric_name: '', rubric_explanation: '' });
+  const userObjectives = []
 
   // Parse JSON data on initial load
   useEffect(() => {
@@ -48,6 +73,7 @@ const ObjectivesTable = ({ jsonData }) => {
     }));
     
     setData(updatedData);
+    userObjectives.push(newObjective.rubric_name + ':' + newObjective.rubric_explanation)
     setNewObjective({ rubric_name: '', rubric_explanation: '' }); // Clear input fields
   };
 
@@ -64,15 +90,19 @@ const ObjectivesTable = ({ jsonData }) => {
       .join('\n');
 
 
+    var guidelines = ''
+    var result = ''
     try {
       // Call the function from openaiApi.js
-      const guidelines = await getGuardrailsFromObjectives(selectedObjectives)
-      const result = JSON.parse(await getAgentPromptFromObjectives(selectedObjectives, guidelines)).response;
+      guidelines = await getGuardrailsFromObjectives(selectedObjectives)
+      result = JSON.parse(await getAgentPromptFromObjectives(selectedObjectives, guidelines)).response;
       setGeneratedPrompt(result);
     } catch (err) {
       setError(`An error occurred while calling OpenAI API: ${err}.`);
     } finally {
       setLoading(false);
+      // TODO: actually make this log the right objectives.
+      await createObjectivesLog(userObjectives.join('\n'), selectedObjectives, guidelines, result);
     }
   };
 
